@@ -1,5 +1,4 @@
 import React, { SyntheticEvent, useState } from "react";
-import { act } from "react-dom/test-utils";
 import { Link } from "react-router-dom";
 import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
@@ -13,7 +12,7 @@ interface Props {
 
 export default function ActivityListItem({ activity }: Props) {
   const { activityStore } = useStore();
-  const { deleteActivity, loading } = activityStore;
+  const { deleteActivity } = activityStore;
   const [target, setTarget] = useState("");
 
   function handleActivityDelete(
@@ -41,14 +40,17 @@ export default function ActivityListItem({ activity }: Props) {
               style={{ marginBottom: 3 }}
               size="tiny"
               circular
-              src="/assets/user.png"
+              src={activity.host?.image || "/assets/user.png"}
             />
             <Item.Content>
               <Item.Header as={Link} to={`/activities/${activity.id}`}>
                 {activity.title}
               </Item.Header>
               <Item.Description>
-                Hosted By {activity.host?.displayName}
+                Hosted By{" "}
+                <Link to={`/profiles/${activity.hostUsername}`}>
+                  {activity.host?.displayName}
+                </Link>
               </Item.Description>
               {activity.isHost && (
                 <Item.Description>

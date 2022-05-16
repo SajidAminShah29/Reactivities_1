@@ -15,10 +15,11 @@ import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
 import LoginForm from "../../features/users/LoginForm";
 import ModalContainer from "../../common/modals/ModalContainer";
+import ProfilePage from "../../features/profiles/ProfilePage";
 
 function App() {
   const location = useLocation();
-  const {commonStore, userStore} = useStore();
+  const { commonStore, userStore } = useStore();
 
   useEffect(() => {
     if (commonStore.token) {
@@ -26,9 +27,10 @@ function App() {
     } else {
       commonStore.setAppLoaded();
     }
-  }, [commonStore, userStore])
+  }, [commonStore, userStore]);
 
-  if(!commonStore.appLoaded) return <LoadingComponents content="Loading App..." />
+  if (!commonStore.appLoaded)
+    return <LoadingComponents content="Loading App..." />;
 
   return (
     <>
@@ -50,6 +52,7 @@ function App() {
                   component={ActivityForm}
                 />
 
+                <Route path="/profiles/:username" component={ProfilePage} />
                 <Route path="/errors" component={TestErrors} />
                 <Route path="/server-error" component={ServerError} />
                 <Route path="/login" component={LoginForm} />
